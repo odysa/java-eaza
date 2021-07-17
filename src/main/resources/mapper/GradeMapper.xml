@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eaza.server.mapper.GradeMapper">
+  <resultMap id="BaseResultMap" type="com.eaza.server.model.Grade">
+    <result column="course_offering_uuid" jdbcType="VARCHAR" property="courseOfferingUuid" />
+    <result column="section_number" jdbcType="INTEGER" property="sectionNumber" />
+    <result column="gpa" jdbcType="DOUBLE" property="gpa" />
+    <result column="a_count" jdbcType="INTEGER" property="aCount" />
+    <result column="ab_count" jdbcType="INTEGER" property="abCount" />
+    <result column="b_count" jdbcType="INTEGER" property="bCount" />
+    <result column="bc_count" jdbcType="INTEGER" property="bcCount" />
+    <result column="c_count" jdbcType="INTEGER" property="cCount" />
+    <result column="d_count" jdbcType="INTEGER" property="dCount" />
+    <result column="f_count" jdbcType="INTEGER" property="fCount" />
+    <result column="s_count" jdbcType="INTEGER" property="sCount" />
+    <result column="u_count" jdbcType="INTEGER" property="uCount" />
+    <result column="cr_count" jdbcType="INTEGER" property="crCount" />
+    <result column="n_count" jdbcType="INTEGER" property="nCount" />
+    <result column="p_count" jdbcType="INTEGER" property="pCount" />
+    <result column="i_count" jdbcType="INTEGER" property="iCount" />
+    <result column="nw_count" jdbcType="INTEGER" property="nwCount" />
+    <result column="nr_count" jdbcType="INTEGER" property="nrCount" />
+    <result column="other_count" jdbcType="INTEGER" property="otherCount" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    course_offering_uuid, section_number, gpa, a_count, ab_count, b_count, bc_count, 
+    c_count, d_count, f_count, s_count, u_count, cr_count, n_count, p_count, i_count, 
+    nw_count, nr_count, other_count
+  </sql>
+  <select id="getGradeByOfferId" parameterType="string" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from grade_distributions
+    where course_offering_uuid = #{offerId, jdbcType=VARCHAR}
+  </select>
+  <select id="selectByExample" parameterType="com.eaza.server.model.GradeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from grade_distributions
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.eaza.server.model.GradeExample">
+    delete from grade_distributions
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.eaza.server.model.Grade">
+    insert into grade_distributions (course_offering_uuid, section_number, 
+      gpa, a_count, ab_count, 
+      b_count, bc_count, c_count, 
+      d_count, f_count, s_count, 
+      u_count, cr_count, n_count, 
+      p_count, i_count, nw_count, 
+      nr_count, other_count)
+    values (#{courseOfferingUuid,jdbcType=VARCHAR}, #{sectionNumber,jdbcType=INTEGER}, 
+      #{gpa,jdbcType=DOUBLE}, #{aCount,jdbcType=INTEGER}, #{abCount,jdbcType=INTEGER}, 
+      #{bCount,jdbcType=INTEGER}, #{bcCount,jdbcType=INTEGER}, #{cCount,jdbcType=INTEGER}, 
+      #{dCount,jdbcType=INTEGER}, #{fCount,jdbcType=INTEGER}, #{sCount,jdbcType=INTEGER}, 
+      #{uCount,jdbcType=INTEGER}, #{crCount,jdbcType=INTEGER}, #{nCount,jdbcType=INTEGER}, 
+      #{pCount,jdbcType=INTEGER}, #{iCount,jdbcType=INTEGER}, #{nwCount,jdbcType=INTEGER}, 
+      #{nrCount,jdbcType=INTEGER}, #{otherCount,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.eaza.server.model.Grade">
+    insert into grade_distributions
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseOfferingUuid != null">
+        course_offering_uuid,
+      </if>
+      <if test="sectionNumber != null">
+        section_number,
+      </if>
+      <if test="gpa != null">
+        gpa,
+      </if>
+      <if test="aCount != null">
+        a_count,
+      </if>
+      <if test="abCount != null">
+        ab_count,
+      </if>
+      <if test="bCount != null">
+        b_count,
+      </if>
+      <if test="bcCount != null">
+        bc_count,
+      </if>
+      <if test="cCount != null">
+        c_count,
+      </if>
+      <if test="dCount != null">
+        d_count,
+      </if>
+      <if test="fCount != null">
+        f_count,
+      </if>
+      <if test="sCount != null">
+        s_count,
+      </if>
+      <if test="uCount != null">
+        u_count,
+      </if>
+      <if test="crCount != null">
+        cr_count,
+      </if>
+      <if test="nCount != null">
+        n_count,
+      </if>
+      <if test="pCount != null">
+        p_count,
+      </if>
+      <if test="iCount != null">
+        i_count,
+      </if>
+      <if test="nwCount != null">
+        nw_count,
+      </if>
+      <if test="nrCount != null">
+        nr_count,
+      </if>
+      <if test="otherCount != null">
+        other_count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseOfferingUuid != null">
+        #{courseOfferingUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionNumber != null">
+        #{sectionNumber,jdbcType=INTEGER},
+      </if>
+      <if test="gpa != null">
+        #{gpa,jdbcType=DOUBLE},
+      </if>
+      <if test="aCount != null">
+        #{aCount,jdbcType=INTEGER},
+      </if>
+      <if test="abCount != null">
+        #{abCount,jdbcType=INTEGER},
+      </if>
+      <if test="bCount != null">
+        #{bCount,jdbcType=INTEGER},
+      </if>
+      <if test="bcCount != null">
+        #{bcCount,jdbcType=INTEGER},
+      </if>
+      <if test="cCount != null">
+        #{cCount,jdbcType=INTEGER},
+      </if>
+      <if test="dCount != null">
+        #{dCount,jdbcType=INTEGER},
+      </if>
+      <if test="fCount != null">
+        #{fCount,jdbcType=INTEGER},
+      </if>
+      <if test="sCount != null">
+        #{sCount,jdbcType=INTEGER},
+      </if>
+      <if test="uCount != null">
+        #{uCount,jdbcType=INTEGER},
+      </if>
+      <if test="crCount != null">
+        #{crCount,jdbcType=INTEGER},
+      </if>
+      <if test="nCount != null">
+        #{nCount,jdbcType=INTEGER},
+      </if>
+      <if test="pCount != null">
+        #{pCount,jdbcType=INTEGER},
+      </if>
+      <if test="iCount != null">
+        #{iCount,jdbcType=INTEGER},
+      </if>
+      <if test="nwCount != null">
+        #{nwCount,jdbcType=INTEGER},
+      </if>
+      <if test="nrCount != null">
+        #{nrCount,jdbcType=INTEGER},
+      </if>
+      <if test="otherCount != null">
+        #{otherCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.eaza.server.model.GradeExample" resultType="java.lang.Long">
+    select count(*) from grade_distributions
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update grade_distributions
+    <set>
+      <if test="record.courseOfferingUuid != null">
+        course_offering_uuid = #{record.courseOfferingUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sectionNumber != null">
+        section_number = #{record.sectionNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.gpa != null">
+        gpa = #{record.gpa,jdbcType=DOUBLE},
+      </if>
+      <if test="record.aCount != null">
+        a_count = #{record.aCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.abCount != null">
+        ab_count = #{record.abCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.bCount != null">
+        b_count = #{record.bCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.bcCount != null">
+        bc_count = #{record.bcCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.cCount != null">
+        c_count = #{record.cCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.dCount != null">
+        d_count = #{record.dCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.fCount != null">
+        f_count = #{record.fCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.sCount != null">
+        s_count = #{record.sCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.uCount != null">
+        u_count = #{record.uCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.crCount != null">
+        cr_count = #{record.crCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.nCount != null">
+        n_count = #{record.nCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.pCount != null">
+        p_count = #{record.pCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.iCount != null">
+        i_count = #{record.iCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.nwCount != null">
+        nw_count = #{record.nwCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.nrCount != null">
+        nr_count = #{record.nrCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.otherCount != null">
+        other_count = #{record.otherCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update grade_distributions
+    set course_offering_uuid = #{record.courseOfferingUuid,jdbcType=VARCHAR},
+      section_number = #{record.sectionNumber,jdbcType=INTEGER},
+      gpa = #{record.gpa,jdbcType=DOUBLE},
+      a_count = #{record.aCount,jdbcType=INTEGER},
+      ab_count = #{record.abCount,jdbcType=INTEGER},
+      b_count = #{record.bCount,jdbcType=INTEGER},
+      bc_count = #{record.bcCount,jdbcType=INTEGER},
+      c_count = #{record.cCount,jdbcType=INTEGER},
+      d_count = #{record.dCount,jdbcType=INTEGER},
+      f_count = #{record.fCount,jdbcType=INTEGER},
+      s_count = #{record.sCount,jdbcType=INTEGER},
+      u_count = #{record.uCount,jdbcType=INTEGER},
+      cr_count = #{record.crCount,jdbcType=INTEGER},
+      n_count = #{record.nCount,jdbcType=INTEGER},
+      p_count = #{record.pCount,jdbcType=INTEGER},
+      i_count = #{record.iCount,jdbcType=INTEGER},
+      nw_count = #{record.nwCount,jdbcType=INTEGER},
+      nr_count = #{record.nrCount,jdbcType=INTEGER},
+      other_count = #{record.otherCount,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
