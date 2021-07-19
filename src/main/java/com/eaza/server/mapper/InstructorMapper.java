@@ -19,4 +19,8 @@ public interface InstructorMapper {
     int updateByExampleSelective(@Param("record") Instructor record, @Param("example") InstructorExample example);
 
     int updateByExample(@Param("record") Instructor record, @Param("example") InstructorExample example);
+
+    int getIdBySectionId(String uuid);
+
+    Instructor getInstructorById(@Param("id") int id);
 }

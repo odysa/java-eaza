@@ -87,15 +87,16 @@
   </sql>
   <select id="getGradeByOfferId" parameterType="string" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List"/>
-    from grade_distributions
-    where course_offering_uuid = #{offerId, jdbcType=VARCHAR}
-  </select>
-  <select id="selectByExample" parameterType="com.eaza.server.model.GradeExample" resultMap="BaseResultMap">
-    select
     <if test="distinct">
       distinct
     </if>
+    <include refid="Base_Column_List"/>
+    from grade_distributions
+    where course_offering_uuid = #{offerId, jdbcType=VARCHAR}
+    limit 1
+  </select>
+  <select id="selectByExample" parameterType="com.eaza.server.model.GradeExample" resultMap="BaseResultMap">
+    select
     <include refid="Base_Column_List" />
     from grade_distributions
     <if test="_parameter != null">

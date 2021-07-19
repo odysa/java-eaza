@@ -2,8 +2,10 @@ package com.eaza.server.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Course {
+public class Course implements Serializable {
     private String uuid;
 
     private String name;

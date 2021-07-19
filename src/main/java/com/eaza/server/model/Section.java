@@ -1,6 +1,8 @@
 package com.eaza.server.model;
 
-public class Section {
+import java.io.Serializable;
+
+public class Section implements Serializable {
     private String uuid;
 
     private String courseOfferingUuid;

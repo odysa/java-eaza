@@ -3,6 +3,8 @@ package com.eaza.server.mapper;
 import com.eaza.server.model.CourseOffering;
 import com.eaza.server.model.CourseOfferingExample;
 import java.util.List;
+
+import com.eaza.server.model.POJO.Term;
 import org.apache.ibatis.annotations.Param;
 
 public interface CourseOfferingMapper {
@@ -21,4 +23,6 @@ public interface CourseOfferingMapper {
     int updateByExample(@Param("record") CourseOffering record, @Param("example") CourseOfferingExample example);
 
     List<String> getOfferIdByCourseUuid(String uuid);
+
+    List<Term> getTermByUuid(String uuid);
 }

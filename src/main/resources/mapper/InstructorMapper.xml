@@ -66,6 +66,17 @@
   <sql id="Base_Column_List">
     id, `name`
   </sql>
+  <select id="getIdBySectionId" parameterType="string" resultType="java.lang.Integer">
+    select distinct instructor_id
+    from teachings
+    where section_uuid = #{uuid}
+  </select>
+  <select id="getInstructorById" parameterType="int" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from instructors
+    where id = #{id}
+  </select>
   <select id="selectByExample" parameterType="com.eaza.server.model.InstructorExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

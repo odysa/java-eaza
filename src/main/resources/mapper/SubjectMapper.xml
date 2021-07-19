@@ -67,6 +67,17 @@
   <sql id="Base_Column_List">
     code, `name`, abbreviation
   </sql>
+  <select id="getCodesByOfferId" parameterType="string" resultType="string">
+    select subject_code
+    FROM subject_memberships
+    WHERE course_offering_uuid = #{offerId}
+  </select>
+  <select id="getSubjectByCode" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    FROM subjects
+    WHERE code = #{code}
+  </select>
   <select id="selectByExample" parameterType="com.eaza.server.model.SubjectExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

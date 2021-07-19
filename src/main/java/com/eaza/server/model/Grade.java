@@ -1,9 +1,13 @@
 package com.eaza.server.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Grade {
+@AllArgsConstructor
+public class Grade implements Serializable {
     private String courseOfferingUuid;
 
     private Integer sectionNumber;
@@ -42,6 +46,13 @@ public class Grade {
 
     private Integer otherCount;
 
+    public Grade(Grade grade){
+        this.courseOfferingUuid = grade.courseOfferingUuid;
+        this.sectionNumber = grade.sectionNumber;
+        this.gpa = grade.gpa;
+        this.abCount = grade.abCount;
+        this.bcCount = grade.bcCount;
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
