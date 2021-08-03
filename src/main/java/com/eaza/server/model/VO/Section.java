@@ -14,6 +14,7 @@ public class Section implements Serializable {
     private Grade grade;
     private List<Instructor> instructors;
     private Term term;
+
     public Section(Grade grade, List<Subject> subjects,List<Instructor> instructors, int termCode){
         this.grade = grade;
         this.subjects = subjects;

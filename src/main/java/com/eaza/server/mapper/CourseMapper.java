@@ -14,11 +14,17 @@ public interface CourseMapper {
 
     int insertSelective(Course record);
 
+    Course selectByAbbName(String abb, int number);
+
+    Course selectByUuid(String uuid);
+
+    List<Course> selectByExampleWithBLOBs(CourseExample example);
+
     List<Course> selectByExample(CourseExample example);
 
     int updateByExampleSelective(@Param("record") Course record, @Param("example") CourseExample example);
 
-    int updateByExample(@Param("record") Course record, @Param("example") CourseExample example);
+    int updateByExampleWithBLOBs(@Param("record") Course record, @Param("example") CourseExample example);
 
-    Course selectByUuid(String uuid);
+    int updateByExample(@Param("record") Course record, @Param("example") CourseExample example);
 }

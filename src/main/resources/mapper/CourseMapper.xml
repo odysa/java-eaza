@@ -2,9 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.eaza.server.mapper.CourseMapper">
   <resultMap id="BaseResultMap" type="com.eaza.server.model.Course">
-    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="id" jdbcType="INTEGER" property="id" />
     <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="last_taught" jdbcType="INTEGER" property="lastTaught" />
+    <result column="grade" jdbcType="DOUBLE" property="grade" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.eaza.server.model.Course">
+    <result column="abb" jdbcType="LONGVARCHAR" property="abb" />
+    <result column="abb_long" jdbcType="LONGVARCHAR" property="abbLong" />
+    <result column="name" jdbcType="LONGVARCHAR" property="name" />
+    <result column="offered" jdbcType="LONGVARCHAR" property="offered" />
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+    <result column="requisite" jdbcType="LONGVARCHAR" property="requisite" />
+    <result column="repeatable" jdbcType="LONGVARCHAR" property="repeatable" />
+    <result column="college" jdbcType="LONGVARCHAR" property="college" />
+    <result column="credit" jdbcType="LONGVARCHAR" property="credit" />
+    <result column="level" jdbcType="LONGVARCHAR" property="level" />
+    <result column="abb_search" jdbcType="LONGVARCHAR" property="abbSearch" />
+    <result column="abb_number" jdbcType="LONGVARCHAR" property="abbNumber" />
+    <result column="breadths" jdbcType="LONGVARCHAR" property="breadths" />
+    <result column="uuid" jdbcType="LONGVARCHAR" property="uuid" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,13 +82,48 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    uuid, `name`, `number`
+    id, `number`, last_taught, grade
   </sql>
-  <select id="selectByUuid" resultMap="BaseResultMap" parameterType="string">
+  <sql id="Blob_Column_List">
+    abb, abb_long, `name`, offered, description, requisite, `repeatable`, college, credit, 
+    `level`, abb_search, abb_number, breadths, uuid
+  </sql>
+  <sql id="Full_Column_List">
+    id, `number`, last_taught, grade,abb, abb_long, `name`, offered, description,
+    requisite, `repeatable`, college, credit, `level`, abb_search, abb_number, breadths, uuid
+  </sql>
+
+  <select id="selectByAbbName" resultMap="ResultMapWithBLOBs">
     select
-    <include refid="Base_Column_List"/>
+    <include refid="Full_Column_List" />
     from courses
-    where uuid = #{uuid,jdbcType=VARCHAR}
+    limit 1
+    where abb = #{dbb} and number = #{number}
+  </select>
+
+  <select id="selectByUuid" parameterType="string" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Full_Column_List" />
+    from courses
+    where uuid = #{uuid}
+    limit 1
+  </select>
+
+  <select id="selectByExampleWithBLOBs" parameterType="com.eaza.server.model.CourseExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from courses
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
   </select>
   <select id="selectByExample" parameterType="com.eaza.server.model.CourseExample" resultMap="BaseResultMap">
     select
@@ -94,33 +146,133 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.eaza.server.model.Course">
-    insert into courses (uuid, `name`, `number`
+    insert into courses (id, `number`, last_taught,
+      grade, abb, abb_long, 
+      `name`, offered, description, 
+      requisite, `repeatable`, college, 
+      credit, `level`, abb_search, 
+      abb_number, breadths, uuid
       )
-    values (#{uuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}
+    values (#{id,jdbcType=INTEGER}, #{number,jdbcType=INTEGER}, #{lastTaught,jdbcType=INTEGER},
+      #{grade,jdbcType=DOUBLE}, #{abb,jdbcType=LONGVARCHAR}, #{abbLong,jdbcType=LONGVARCHAR}, 
+      #{name,jdbcType=LONGVARCHAR}, #{offered,jdbcType=LONGVARCHAR}, #{description,jdbcType=LONGVARCHAR}, 
+      #{requisite,jdbcType=LONGVARCHAR}, #{repeatable,jdbcType=LONGVARCHAR}, #{college,jdbcType=LONGVARCHAR}, 
+      #{credit,jdbcType=LONGVARCHAR}, #{level,jdbcType=LONGVARCHAR}, #{abbSearch,jdbcType=LONGVARCHAR}, 
+      #{abbNumber,jdbcType=LONGVARCHAR}, #{breadths,jdbcType=LONGVARCHAR}, #{uuid,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.eaza.server.model.Course">
     insert into courses
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="uuid != null">
-        uuid,
-      </if>
-      <if test="name != null">
-        `name`,
+      <if test="id != null">
+        id,
       </if>
       <if test="number != null">
         `number`,
       </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="uuid != null">
-        #{uuid,jdbcType=VARCHAR},
+      <if test="lastTaught != null">
+        last_taught,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="abb != null">
+        abb,
+      </if>
+      <if test="abbLong != null">
+        abb_long,
       </if>
       <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+        `name`,
+      </if>
+      <if test="offered != null">
+        offered,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="requisite != null">
+        requisite,
+      </if>
+      <if test="repeatable != null">
+        `repeatable`,
+      </if>
+      <if test="college != null">
+        college,
+      </if>
+      <if test="credit != null">
+        credit,
+      </if>
+      <if test="level != null">
+        `level`,
+      </if>
+      <if test="abbSearch != null">
+        abb_search,
+      </if>
+      <if test="abbNumber != null">
+        abb_number,
+      </if>
+      <if test="breadths != null">
+        breadths,
+      </if>
+      <if test="uuid != null">
+        uuid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="number != null">
         #{number,jdbcType=INTEGER},
+      </if>
+      <if test="lastTaught != null">
+        #{lastTaught,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=DOUBLE},
+      </if>
+      <if test="abb != null">
+        #{abb,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="abbLong != null">
+        #{abbLong,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="offered != null">
+        #{offered,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="requisite != null">
+        #{requisite,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="repeatable != null">
+        #{repeatable,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="college != null">
+        #{college,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="credit != null">
+        #{credit,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="abbSearch != null">
+        #{abbSearch,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="abbNumber != null">
+        #{abbNumber,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="breadths != null">
+        #{breadths,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -133,25 +285,95 @@
   <update id="updateByExampleSelective" parameterType="map">
     update courses
     <set>
-      <if test="record.uuid != null">
-        uuid = #{record.uuid,jdbcType=VARCHAR},
-      </if>
-      <if test="record.name != null">
-        `name` = #{record.name,jdbcType=VARCHAR},
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.number != null">
         `number` = #{record.number,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastTaught != null">
+        last_taught = #{record.lastTaught,jdbcType=INTEGER},
+      </if>
+      <if test="record.grade != null">
+        grade = #{record.grade,jdbcType=DOUBLE},
+      </if>
+      <if test="record.abb != null">
+        abb = #{record.abb,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.abbLong != null">
+        abb_long = #{record.abbLong,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.name != null">
+        `name` = #{record.name,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.offered != null">
+        offered = #{record.offered,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.requisite != null">
+        requisite = #{record.requisite,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.repeatable != null">
+        `repeatable` = #{record.repeatable,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.college != null">
+        college = #{record.college,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.credit != null">
+        credit = #{record.credit,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.level != null">
+        `level` = #{record.level,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.abbSearch != null">
+        abb_search = #{record.abbSearch,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.abbNumber != null">
+        abb_number = #{record.abbNumber,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.breadths != null">
+        breadths = #{record.breadths,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.uuid != null">
+        uuid = #{record.uuid,jdbcType=LONGVARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update courses
+    set id = #{record.id,jdbcType=INTEGER},
+      `number` = #{record.number,jdbcType=INTEGER},
+      last_taught = #{record.lastTaught,jdbcType=INTEGER},
+      grade = #{record.grade,jdbcType=DOUBLE},
+      abb = #{record.abb,jdbcType=LONGVARCHAR},
+      abb_long = #{record.abbLong,jdbcType=LONGVARCHAR},
+      `name` = #{record.name,jdbcType=LONGVARCHAR},
+      offered = #{record.offered,jdbcType=LONGVARCHAR},
+      description = #{record.description,jdbcType=LONGVARCHAR},
+      requisite = #{record.requisite,jdbcType=LONGVARCHAR},
+      `repeatable` = #{record.repeatable,jdbcType=LONGVARCHAR},
+      college = #{record.college,jdbcType=LONGVARCHAR},
+      credit = #{record.credit,jdbcType=LONGVARCHAR},
+      `level` = #{record.level,jdbcType=LONGVARCHAR},
+      abb_search = #{record.abbSearch,jdbcType=LONGVARCHAR},
+      abb_number = #{record.abbNumber,jdbcType=LONGVARCHAR},
+      breadths = #{record.breadths,jdbcType=LONGVARCHAR},
+      uuid = #{record.uuid,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
   <update id="updateByExample" parameterType="map">
     update courses
-    set uuid = #{record.uuid,jdbcType=VARCHAR},
-      `name` = #{record.name,jdbcType=VARCHAR},
-      `number` = #{record.number,jdbcType=INTEGER}
+    set id = #{record.id,jdbcType=INTEGER},
+      `number` = #{record.number,jdbcType=INTEGER},
+      last_taught = #{record.lastTaught,jdbcType=INTEGER},
+      grade = #{record.grade,jdbcType=DOUBLE}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>

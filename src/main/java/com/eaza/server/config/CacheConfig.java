@@ -17,7 +17,7 @@ public class CacheConfig {
         RedisCacheWriter writer = RedisCacheWriter.lockingRedisCacheWriter(factory);
         RedisCacheConfiguration configuration = RedisCacheConfiguration
                 .defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(300));
+                .entryTtl(Duration.ofSeconds(1));
         return new RedisCacheManager(writer, configuration);
     }
 }

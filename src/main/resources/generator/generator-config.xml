@@ -41,11 +41,11 @@
                              type="XMLMAPPER"/>
 
         <!--<table tableName="demo" domainObjectName="Demo"/>-->
-        <table tableName="course_offerings" domainObjectName = "CourseOffering" />
+<!--        <table tableName="course_offerings" domainObjectName = "CourseOffering" />-->
         <table tableName="courses" domainObjectName="Course"/>
-        <table tableName="grade_distributions" domainObjectName = "Grade"/>
-        <table tableName="instructors" domainObjectName="Instructor"/>
-        <table tableName="sections" domainObjectName="Section"/>
-        <table tableName="subjects" domainObjectName="Subject"/>
+<!--        <table tableName="grade_distributions" domainObjectName = "Grade"/>-->
+<!--        <table tableName="instructors" domainObjectName="Instructor"/>-->
+<!--        <table tableName="sections" domainObjectName="Section"/>-->
+<!--        <table tableName="subjects" domainObjectName="Subject"/>-->
     </context>
 </generatorConfiguration>
