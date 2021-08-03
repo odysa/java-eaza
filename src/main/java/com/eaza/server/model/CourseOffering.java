@@ -1,9 +1,11 @@
 package com.eaza.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
 public class CourseOffering {
+    @JsonIgnore
     private String uuid;
 
     private String courseUuid;

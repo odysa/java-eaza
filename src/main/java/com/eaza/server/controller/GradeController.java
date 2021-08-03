@@ -25,8 +25,8 @@ public class GradeController {
     private SubjectService subjectService;
 
     @GetMapping("/grade/{id}")
-    public Grade getGradeByOfferId(@PathVariable String id){
-        return gradeService.getGradeByOfferId(id);
+    public List<Grade> getGradeByOfferId(@PathVariable String id){
+        return gradeService.getGradesByUuid(id);
     }
 
     @GetMapping("/grades/{uuid}")

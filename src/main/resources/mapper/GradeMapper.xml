@@ -85,15 +85,11 @@
     c_count, d_count, f_count, s_count, u_count, cr_count, n_count, p_count, i_count, 
     nw_count, nr_count, other_count
   </sql>
-  <select id="getGradeByOfferId" parameterType="string" resultMap="BaseResultMap">
+  <select id="getGradesByOfferId" parameterType="string" resultMap="BaseResultMap" resultType="com.eaza.server.model.Grade">
     select
-    <if test="distinct">
-      distinct
-    </if>
     <include refid="Base_Column_List"/>
     from grade_distributions
     where course_offering_uuid = #{offerId, jdbcType=VARCHAR}
-    limit 1
   </select>
   <select id="selectByExample" parameterType="com.eaza.server.model.GradeExample" resultMap="BaseResultMap">
     select

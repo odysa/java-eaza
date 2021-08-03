@@ -6,37 +6,19 @@ import com.eaza.server.model.Subject;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 public class Section implements Serializable {
-    private List<Subject> subjects;
     private Grade grade;
-    private List<Instructor> instructors;
-    private Term term;
+    private List<String> instructors;
 
-    public Section(Grade grade, List<Subject> subjects,List<Instructor> instructors, int termCode){
+    public Section(Grade grade,List<Instructor> instructors){
         this.grade = grade;
-        this.subjects = subjects;
-        this.term = getTerm(termCode);
-        this.instructors = instructors;
-    }
-
-    public Term getTerm(int code) {
-        String semester;
-
-        int base = code / 10;
-
-        if (code % 10 == 2) {
-            semester = "Fall";
-            base -= 1;
-        } else {
-            semester = "Spring";
+        this.instructors = new ArrayList<>();
+        for (var instructor:instructors){
+            this.instructors.add(instructor.getName());
         }
-
-        int year = base + 2001 - 101;
-
-        var term = new Term(code,semester,year);
-        return term;
     }
 }

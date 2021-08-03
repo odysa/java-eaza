@@ -28,8 +28,12 @@ public class CourseService {
         return courseOfferingMapper.getOfferIdByCourseUuid(uuid);
     }
 
-    @Cacheable(value = "getTerm")
-    public List<Term> getTerm(String uuid){
+//    @Cacheable(value = "getTerm")
+    public Term getTerm(String offerId){
+        return courseOfferingMapper.getTermByOfferId(offerId);
+    }
+
+    public List<Term> getTermsByUuid(String uuid){
         return courseOfferingMapper.getTermByUuid(uuid);
     }
 }

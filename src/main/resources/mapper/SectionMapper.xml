@@ -70,10 +70,10 @@
   <sql id="Base_Column_List">
     uuid, course_offering_uuid, section_type, `number`, room_uuid, schedule_uuid
   </sql>
-  <select id="getSectionIdByOfferId" resultType="string">
+  <select id="getSectionIdByOfferIdNNum" resultType="string">
     select uuid
     from sections
-    where course_offering_uuid = #{offerId}
+    where course_offering_uuid = #{offerId} and number = #{number}
   </select>
   <select id="selectByExample" parameterType="com.eaza.server.model.SectionExample" resultMap="BaseResultMap">
     select

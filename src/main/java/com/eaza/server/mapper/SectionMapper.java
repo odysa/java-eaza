@@ -20,5 +20,5 @@ public interface SectionMapper {
 
     int updateByExample(@Param("record") Section record, @Param("example") SectionExample example);
 
-    List<String> getSectionIdByOfferId(String offerId);
+    List<String> getSectionIdByOfferIdNNum(String offerId, int number);
 }

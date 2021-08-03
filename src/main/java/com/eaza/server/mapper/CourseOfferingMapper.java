@@ -25,4 +25,6 @@ public interface CourseOfferingMapper {
     List<String> getOfferIdByCourseUuid(String uuid);
 
     List<Term> getTermByUuid(String uuid);
+
+    Term getTermByOfferId(String offerId);
 }

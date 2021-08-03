@@ -82,6 +82,13 @@
     from course_offerings
     where course_uuid = #{uuid,jdbcType=VARCHAR}
   </select>
+
+  <select id="getTermByOfferId" parameterType="string" resultMap="TermResultMap">
+    select uuid, term_code
+    from course_offerings
+    where uuid = #{offerId,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectByExample" parameterType="com.eaza.server.model.CourseOfferingExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

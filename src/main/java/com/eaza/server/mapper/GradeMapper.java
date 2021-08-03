@@ -20,5 +20,5 @@ public interface GradeMapper {
 
     int updateByExample(@Param("record") Grade record, @Param("example") GradeExample example);
 
-    Grade getGradeByOfferId(String offerId);
+    List<Grade> getGradesByOfferId(String offerId);
 }

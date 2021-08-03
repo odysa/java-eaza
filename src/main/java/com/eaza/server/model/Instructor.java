@@ -1,14 +1,20 @@
 package com.eaza.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
 public class Instructor implements Serializable {
+    @JsonIgnore
     private Integer id;
 
     private String name;
+
+    public String getName(){
+        return name.replace("X / ","");
+    }
 
     @Override
     public String toString() {

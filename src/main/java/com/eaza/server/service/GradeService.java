@@ -22,9 +22,9 @@ public class GradeService {
     private SubjectService subjectService;
 
     // by offer id
-    @Cacheable(value = "getGradeByOfferId")
-    public Grade getGradeByOfferId(String offerId){
-        return gradeMapper.getGradeByOfferId(offerId);
+//    @Cacheable(value = "getGradeByOfferId")
+    public List<Grade> getGradesByOfferId(String offerId){
+        return gradeMapper.getGradesByOfferId(offerId);
     }
 
     @Cacheable(value = "getGradesByUuid")
@@ -33,12 +33,11 @@ public class GradeService {
         var offers = courseService.getOfferId(uuid);
 
         for(var offer:offers){
-            var grade = getGradeByOfferId(offer);
-            var subjectCodes = subjectService.getSubjectCodes(offer);
-
-            grades.add(grade);
+            var gradeList = getGradesByOfferId(offer);
+            for (var grade:gradeList){
+                grades.add(grade);
+            }
         }
-
         return grades;
     }
 }

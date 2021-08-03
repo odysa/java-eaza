@@ -1,5 +1,6 @@
 package com.eaza.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 public class Grade implements Serializable {
+    @JsonIgnore
     private String courseOfferingUuid;
 
     private Integer sectionNumber;
