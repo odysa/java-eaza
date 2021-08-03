@@ -18,7 +18,7 @@ public class SemesterController {
     private SemesterService semesterService;
 
     @GetMapping("/semester/{uuid}")
-    public List<Semester> getSemesterByUuid(@PathVariable String uuid){
+    public List<Semester> getSemesterByUuid(@PathVariable String uuid) {
         return semesterService.getSemesters(uuid);
     }
 }

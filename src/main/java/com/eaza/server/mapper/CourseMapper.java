@@ -2,7 +2,10 @@ package com.eaza.server.mapper;
 
 import com.eaza.server.model.Course;
 import com.eaza.server.model.CourseExample;
+
 import java.util.List;
+
+import com.eaza.server.model.VO.SearchResult;
 import org.apache.ibatis.annotations.Param;
 
 public interface CourseMapper {
@@ -17,6 +20,8 @@ public interface CourseMapper {
     Course selectByAbbName(String abb, int number);
 
     Course selectByUuid(String uuid);
+
+    List<SearchResult> searchByQuery(String query);
 
     List<Course> selectByExampleWithBLOBs(CourseExample example);
 

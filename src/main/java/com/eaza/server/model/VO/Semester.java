@@ -10,12 +10,12 @@ public class Semester implements Serializable {
     private Term term;
     private List<Section> sections;
 
-    public Semester(List<Section> sections, int code){
+    public Semester(List<Section> sections, int code) {
         this.sections = sections;
         this.term = this.getTerm(code);
     }
 
-    public Semester(List<Section> sections, Term term){
+    public Semester(List<Section> sections, Term term) {
         this.sections = sections;
         this.term = term;
     }
@@ -34,7 +34,7 @@ public class Semester implements Serializable {
 
         int year = base + 2001 - 101;
 
-        var term = new Term(code,semester,year);
+        var term = new Term(code, semester, year);
         return term;
     }
 }

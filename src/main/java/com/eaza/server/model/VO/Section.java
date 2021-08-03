@@ -14,10 +14,10 @@ public class Section implements Serializable {
     private Grade grade;
     private List<String> instructors;
 
-    public Section(Grade grade,List<Instructor> instructors){
+    public Section(Grade grade, List<Instructor> instructors) {
         this.grade = grade;
         this.instructors = new ArrayList<>();
-        for (var instructor:instructors){
+        for (var instructor : instructors) {
             this.instructors.add(instructor.getName());
         }
     }

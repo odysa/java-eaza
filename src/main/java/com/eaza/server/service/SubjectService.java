@@ -15,20 +15,20 @@ public class SubjectService {
     private SubjectMapper subjectMapper;
 
     @Cacheable(value = "getSubjectCodes")
-    public List<String> getSubjectCodes(String offerId){
+    public List<String> getSubjectCodes(String offerId) {
         return subjectMapper.getCodesByOfferId(offerId);
     }
 
     @Cacheable(value = "getSubject")
-    public Subject getSubject(String code){
+    public Subject getSubject(String code) {
         return subjectMapper.getSubjectByCode(code);
     }
 
     @Cacheable(value = "getSubjectsByOfferId")
-    public List<Subject> getSubjectsByOfferId(String offerId){
+    public List<Subject> getSubjectsByOfferId(String offerId) {
         var subjects = new ArrayList();
         var codes = getSubjectCodes(offerId);
-        for(var code:codes){
+        for (var code : codes) {
             var subject = getSubject(code);
             subjects.add(subject);
         }

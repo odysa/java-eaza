@@ -23,18 +23,18 @@ public class GradeService {
 
     // by offer id
 //    @Cacheable(value = "getGradeByOfferId")
-    public List<Grade> getGradesByOfferId(String offerId){
+    public List<Grade> getGradesByOfferId(String offerId) {
         return gradeMapper.getGradesByOfferId(offerId);
     }
 
     @Cacheable(value = "getGradesByUuid")
-    public List<Grade> getGradesByUuid(@PathVariable String uuid){
+    public List<Grade> getGradesByUuid(@PathVariable String uuid) {
         var grades = new ArrayList<Grade>();
         var offers = courseService.getOfferId(uuid);
 
-        for(var offer:offers){
+        for (var offer : offers) {
             var gradeList = getGradesByOfferId(offer);
-            for (var grade:gradeList){
+            for (var grade : gradeList) {
                 grades.add(grade);
             }
         }

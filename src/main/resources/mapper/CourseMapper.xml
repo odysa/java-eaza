@@ -23,6 +23,15 @@
     <result column="breadths" jdbcType="LONGVARCHAR" property="breadths" />
     <result column="uuid" jdbcType="LONGVARCHAR" property="uuid" />
   </resultMap>
+
+  <resultMap id="SearchResultMap" type="com.eaza.server.model.VO.SearchResult">
+    <result column="abb" jdbcType="LONGVARCHAR" property="abb" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="name" jdbcType="LONGVARCHAR" property="name" />
+    <result column="uuid" jdbcType="LONGVARCHAR" property="uuid" />
+    <result column="breadths" jdbcType="LONGVARCHAR" property="breadths" />
+  </resultMap>
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -107,6 +116,13 @@
     from courses
     where uuid = #{uuid}
     limit 1
+  </select>
+
+  <select id="searchByQuery" resultMap="SearchResultMap">
+    SELECT abb,number,name,uuid,breadths
+    FROM courses
+    WHERE uuid is not null and MATCH (abb_number, abb, name)
+    AGAINST (#{query} in NATURAL LANGUAGE MODE)
   </select>
 
   <select id="selectByExampleWithBLOBs" parameterType="com.eaza.server.model.CourseExample" resultMap="ResultMapWithBLOBs">

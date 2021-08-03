@@ -13,18 +13,18 @@ public class InstructorService {
     private InstructorMapper instructorMapper;
 
     @Cacheable(value = "getInstructorBySectionId")
-    public Instructor getInstructorBySectionId(String sectionId){
+    public Instructor getInstructorBySectionId(String sectionId) {
         var id = getInstructorIdBySectionId(sectionId);
         return getInstructorById(id);
     }
 
     @Cacheable(value = "getInstructorById")
-    public Instructor getInstructorById(int id){
+    public Instructor getInstructorById(int id) {
         return instructorMapper.getInstructorById(id);
     }
 
     @Cacheable(value = "getInstructorIdBySectionId")
-    public int getInstructorIdBySectionId(String id){
+    public int getInstructorIdBySectionId(String id) {
         return instructorMapper.getIdBySectionId(id);
     }
 }

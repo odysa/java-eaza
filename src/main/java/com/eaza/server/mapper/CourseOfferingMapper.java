@@ -2,6 +2,7 @@ package com.eaza.server.mapper;
 
 import com.eaza.server.model.CourseOffering;
 import com.eaza.server.model.CourseOfferingExample;
+
 import java.util.List;
 
 import com.eaza.server.model.POJO.Term;
